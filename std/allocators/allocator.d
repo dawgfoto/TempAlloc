@@ -261,7 +261,7 @@ mixin template TypedAllocatorMixin()
         auto chunk = cast(T*) allocate(T.sizeof);
         return emplace!T(chunk, args);
     }
-    
+
     /**
     Allocates an array of type $(D T).  $(D T) may be a multidimensional 
     array.  In this case sizes may be specified for any number of dimensions 
@@ -284,24 +284,23 @@ mixin template TypedAllocatorMixin()
     ---
     */
     auto newArray(T, I...)(I sizes)
-    if(allSatisfy!(isIntegral, I)) 
+    if(allSatisfy!(isIntegral, I))
     {
-
-        static void initialize(R)(R toInitialize) {
-            static if(isArray!(ElementType!R)) {
-                foreach(elem; toInitialize) {
-                    initialize(elem);
-                }
-            } else {
-                toInitialize[] = ElementType!(R).init;
-            }
-        }
-
         auto ret = uninitializedArray!(T, I)(sizes);
-        initialize(ret);
+        _initialize(ret);
         return ret;
     }
-    
+
+    private static void _initialize(R)(R toInitialize) {
+        static if(isArray!(ElementType!R)) {
+            foreach(elem; toInitialize) {
+                _initialize(elem);
+            }
+        } else {
+            toInitialize[] = ElementType!(R).init;
+        }
+    }
+
     /**
     Same as $(D newArray), except skips initialization of elements for
     occasions when greater performance is required.
