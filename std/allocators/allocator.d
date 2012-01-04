@@ -15,6 +15,7 @@ import std.conv;
 import std.range;
 import std.traits;
 import std.typetuple;
+import core.stdc.string : memcpy;
 
 /**
 Tests whether A conforms to the structural interface of an allocator.  An

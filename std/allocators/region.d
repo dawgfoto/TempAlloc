@@ -113,6 +113,7 @@ import std.typecons;
 import std.typetuple;
 
 static import core.stdc.stdlib;
+import core.stdc.string : memcpy;
 
 // This is just for convenience/code readability/saving typing.
 private enum ptrSize = (void*).sizeof;
