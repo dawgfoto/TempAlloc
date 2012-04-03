@@ -226,6 +226,8 @@ functionality.
 */
 mixin template TypedAllocatorMixin()
 {
+    import std.conv, std.range, std.traits, std.typetuple;
+
     /**
     Create a new instance of a class on the current allocator,
     passing $(D args) to its constructor.
